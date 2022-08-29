@@ -1,0 +1,75 @@
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Transform": "AWS::Serverless-2016-10-31",
+	"Parameters": {
+		"AuthorDate": {
+			"Type": "String",
+			"Description": "Author Date for the Commit of the current build."
+		},
+		"CommitId": {
+			"Type": "String",
+			"Description": "Commit Id for the Commit of the current build."
+		}
+	},
+	"Resources": {
+		"MedsTrackerAPIServiceFunction": {
+			"Type": "AWS::Serverless::Function",
+			"Properties": {
+				"AutoPublishAlias": { "Ref": "CommitId" },
+				"CodeUri": {
+					"Bucket": "hackitout-meds-tracker-api-service-artifact-bucket",
+					"Key": {
+						"Fn::Join": [
+							"",
+							[
+								"builds/",
+								{ "Ref": "AuthorDate" },
+								"_",
+								{ "Ref": "CommitId" },
+								".zip"
+							]
+						]
+					}
+				},
+				"Description": {
+					"Fn::Join": [
+						"",
+						[
+							"HackItOut API Service Function. AuthorDate: ",
+							{ "Ref": "AuthorDate" },
+							" CommitId: ",
+							{ "Ref": "CommitId" }
+						]
+					]
+				},
+				"Environment": {
+					"Variables": {
+						"ENVIRONMENT": "TESTING",
+						"LOCATION": "CLOUD",
+						"AIT_API_KEY": "{{resolve:ssm:/medstracker/africaistalking/APIKey}}",
+						"AIT_USERNAME": "{{resolve:ssm:/medstracker/africaistalking/Username}}",
+						"JWT_SECRET": "{{resolve:ssm:/medstracker/secret/JWT}}",
+						"UPLOAD_SECRET": "{{resolve:ssm:/medstracker/secret/Upload}}"
+					}
+				},
+				"FunctionName": "MedsTrackerAPIServiceFunction",
+				"Handler": "dist/ncc/index.handler",
+				"MemorySize": 1024,
+				"ReservedConcurrentExecutions": 10,
+				"Role": {
+					"Fn::Join": [
+						"",
+						[
+							"arn:aws:iam::",
+							{ "Ref": "AWS::AccountId" },
+
+							":role/MedsTrackerAPIServiceFunctionRole"
+						]
+					]
+				},
+				"Runtime": "nodejs16.x",
+				"Timeout": 300
+			}
+		}
+	}
+}
