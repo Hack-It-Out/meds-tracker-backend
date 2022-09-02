@@ -4,7 +4,11 @@ config(); // { path: join(__dirname, '../.env')});
 
 // AWS Lambda support
 
-import { ValidationPipe, VersioningType } from "@nestjs/common";
+import {
+	BadRequestException,
+	ValidationPipe,
+	VersioningType,
+} from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import {
 	APIGatewayProxyHandlerV2,
@@ -17,6 +21,7 @@ import { AppModule } from "./app/app.module";
 import { cors } from "./cors";
 // import * as payload from "./payload.json";
 import { cloneDeep } from "lodash";
+import { inspect } from "util";
 
 let server: APIGatewayProxyHandlerV2;
 
@@ -50,6 +55,19 @@ async function bootstrap(): Promise<APIGatewayProxyHandlerV2> {
 		new ValidationPipe({
 			whitelist: true,
 			skipMissingProperties: true,
+			exceptionFactory: (errors) => {
+				// console.log(errors);
+				for (const error of errors) {
+					console.log(
+						inspect(error, {
+							showHidden: false,
+							depth: null,
+							colors: true,
+						})
+					);
+				}
+				return new BadRequestException(errors);
+			},
 		})
 	);
 	app.enableVersioning({ type: VersioningType.URI });
