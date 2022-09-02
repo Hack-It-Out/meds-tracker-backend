@@ -1,0 +1,36 @@
+version: 0.2
+
+env:
+    variables:
+        CDK_LOCATION: CLOUD
+
+phases:
+    install:
+        runtime-versions:
+            # python: latest
+            nodejs: 14
+        commands:
+            # - "printenv"
+            -  # Workaround to CodeBuild not supporting nodejs 16
+            - "n 16"
+            - "aws --version"
+            - "npm -v"
+            - "npm install -g pnpm"
+    pre_build:
+        commands:
+            - "pnpm co:login:cloud"
+            - "pnpm install"
+            # - "pnpm run ecr:login:cloud"
+    build:
+        commands:
+            - "pnpm run build:cicd"
+            # - "pnpm run docker:build:cloud"
+    # post_build:
+    # commands:
+    # - "pnpm run docker:push"
+
+artifacts:
+    files:
+        - "dist/**/*"
+        # - "cloudformation/template.json"
+    # base-directory: "dist"

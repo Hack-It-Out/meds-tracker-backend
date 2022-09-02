@@ -1,0 +1,311 @@
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Transform": "AWS::Serverless-2016-10-31",
+	"Parameters": {
+		"AuthorDate": {
+			"Type": "String",
+			"Description": "Author Date for the Commit of the current build."
+		},
+		"CommitId": {
+			"Type": "String",
+			"Description": "Commit Id for the Commit of the current build."
+		}
+	},
+	"Resources": {
+		"MedsTrackerAPIServiceFunction": {
+			"Type": "AWS::Serverless::Function",
+			"Properties": {
+				"AutoPublishAlias": { "Ref": "CommitId" },
+				"CodeUri": {
+					"Bucket": "hackitout-meds-tracker-backend-artifact-bucket",
+					"Key": {
+						"Fn::Join": [
+							"",
+							[
+								"services/API/builds/",
+								{ "Ref": "AuthorDate" },
+								"_",
+								{ "Ref": "CommitId" },
+								".zip"
+							]
+						]
+					}
+				},
+				"Description": {
+					"Fn::Join": [
+						"",
+						[
+							"HackItOut API Service Function. AuthorDate: ",
+							{ "Ref": "AuthorDate" },
+							" CommitId: ",
+							{ "Ref": "CommitId" }
+						]
+					]
+				},
+				"Environment": {
+					"Variables": {
+						"ENVIRONMENT": "TESTING",
+						"LOCATION": "CLOUD",
+						"AIT_API_KEY": "{{resolve:ssm:/medstracker/africaistalking/APIKey}}",
+						"AIT_USERNAME": "{{resolve:ssm:/medstracker/africaistalking/Username}}",
+						"JWT_SECRET": "{{resolve:ssm:/medstracker/secret/JWT}}",
+						"UPLOAD_SECRET": "{{resolve:ssm:/medstracker/secret/Upload}}"
+					}
+				},
+				"FunctionName": "MedsTrackerAPIServiceFunction",
+				"Handler": "dist/ncc/index.handler",
+				"MemorySize": 1024,
+				"ReservedConcurrentExecutions": 10,
+				"Role": {
+					"Fn::Join": [
+						"",
+						[
+							"arn:aws:iam::",
+							{ "Ref": "AWS::AccountId" },
+
+							":role/MedsTrackerAPIServiceFunctionRole"
+						]
+					]
+				},
+				"Runtime": "nodejs16.x",
+				"Timeout": 300
+			}
+		},
+		"MedsTrackerAuthCreateAuthChallengeFunction": {
+			"Type": "AWS::Serverless::Function",
+			"Properties": {
+				"AutoPublishAlias": { "Ref": "CommitId" },
+				"CodeUri": {
+					"Bucket": "hackitout-meds-tracker-backend-artifact-bucket",
+					"Key": {
+						"Fn::Join": [
+							"",
+							[
+								"services/auth/builds/",
+								{ "Ref": "AuthorDate" },
+								"_",
+								{ "Ref": "CommitId" },
+								".zip"
+							]
+						]
+					}
+				},
+				"Description": {
+					"Fn::Join": [
+						"",
+						[
+							"HackItOut Auth Create Auth Challenge Function. AuthorDate: ",
+							{ "Ref": "AuthorDate" },
+							" CommitId: ",
+							{ "Ref": "CommitId" }
+						]
+					]
+				},
+				"Environment": {
+					"Variables": {
+						"ENVIRONMENT": "TESTING",
+						"LOCATION": "CLOUD",
+						"AIT_API_KEY": "{{resolve:ssm:/medstracker/africaistalking/APIKey}}",
+						"AIT_USERNAME": "{{resolve:ssm:/medstracker/africaistalking/Username}}",
+						"JWT_SECRET": "{{resolve:ssm:/medstracker/secret/JWT}}",
+						"UPLOAD_SECRET": "{{resolve:ssm:/medstracker/secret/Upload}}"
+					}
+				},
+				"FunctionName": "MedsTrackerAuthCreateAuthChallengeFunction",
+				"Handler": "dist/lambda/create-auth-challenge/ncc/index.handler",
+				"MemorySize": 512,
+				"ReservedConcurrentExecutions": 10,
+				"Role": {
+					"Fn::Join": [
+						"",
+						[
+							"arn:aws:iam::",
+							{ "Ref": "AWS::AccountId" },
+
+							":role/MedsTrackerAuthLambdaFunctionRole"
+						]
+					]
+				},
+				"Runtime": "nodejs16.x",
+				"Timeout": 300
+			}
+		},
+		"MedsTrackerAuthDefineAuthChallengeFunction": {
+			"Type": "AWS::Serverless::Function",
+			"Properties": {
+				"AutoPublishAlias": { "Ref": "CommitId" },
+				"CodeUri": {
+					"Bucket": "hackitout-meds-tracker-backend-artifact-bucket",
+					"Key": {
+						"Fn::Join": [
+							"",
+							[
+								"services/auth/builds/",
+								{ "Ref": "AuthorDate" },
+								"_",
+								{ "Ref": "CommitId" },
+								".zip"
+							]
+						]
+					}
+				},
+				"Description": {
+					"Fn::Join": [
+						"",
+						[
+							"HackItOut Auth Define Auth Challenge Function. AuthorDate: ",
+							{ "Ref": "AuthorDate" },
+							" CommitId: ",
+							{ "Ref": "CommitId" }
+						]
+					]
+				},
+				"Environment": {
+					"Variables": {
+						"ENVIRONMENT": "TESTING",
+						"LOCATION": "CLOUD",
+						"AIT_API_KEY": "{{resolve:ssm:/medstracker/africaistalking/APIKey}}",
+						"AIT_USERNAME": "{{resolve:ssm:/medstracker/africaistalking/Username}}",
+						"JWT_SECRET": "{{resolve:ssm:/medstracker/secret/JWT}}",
+						"UPLOAD_SECRET": "{{resolve:ssm:/medstracker/secret/Upload}}"
+					}
+				},
+				"FunctionName": "MedsTrackerAuthDefineAuthChallengeFunction",
+				"Handler": "dist/lambda/define-auth-challenge/ncc/index.handler",
+				"MemorySize": 512,
+				"ReservedConcurrentExecutions": 10,
+				"Role": {
+					"Fn::Join": [
+						"",
+						[
+							"arn:aws:iam::",
+							{ "Ref": "AWS::AccountId" },
+
+							":role/MedsTrackerAuthLambdaFunctionRole"
+						]
+					]
+				},
+				"Runtime": "nodejs16.x",
+				"Timeout": 300
+			}
+		},
+		"MedsTrackerAuthPreSignUpFunction": {
+			"Type": "AWS::Serverless::Function",
+			"Properties": {
+				"AutoPublishAlias": { "Ref": "CommitId" },
+				"CodeUri": {
+					"Bucket": "hackitout-meds-tracker-backend-artifact-bucket",
+					"Key": {
+						"Fn::Join": [
+							"",
+							[
+								"services/auth/builds/",
+								{ "Ref": "AuthorDate" },
+								"_",
+								{ "Ref": "CommitId" },
+								".zip"
+							]
+						]
+					}
+				},
+				"Description": {
+					"Fn::Join": [
+						"",
+						[
+							"HackItOut Auth Pre Sign Up Function. AuthorDate: ",
+							{ "Ref": "AuthorDate" },
+							" CommitId: ",
+							{ "Ref": "CommitId" }
+						]
+					]
+				},
+				"Environment": {
+					"Variables": {
+						"ENVIRONMENT": "TESTING",
+						"LOCATION": "CLOUD",
+						"AIT_API_KEY": "{{resolve:ssm:/medstracker/africaistalking/APIKey}}",
+						"AIT_USERNAME": "{{resolve:ssm:/medstracker/africaistalking/Username}}",
+						"JWT_SECRET": "{{resolve:ssm:/medstracker/secret/JWT}}",
+						"UPLOAD_SECRET": "{{resolve:ssm:/medstracker/secret/Upload}}"
+					}
+				},
+				"FunctionName": "MedsTrackerAuthPreSignUpFunction",
+				"Handler": "dist/lambda/pre-sign-up/ncc/index.handler",
+				"MemorySize": 512,
+				"ReservedConcurrentExecutions": 10,
+				"Role": {
+					"Fn::Join": [
+						"",
+						[
+							"arn:aws:iam::",
+							{ "Ref": "AWS::AccountId" },
+
+							":role/MedsTrackerAuthLambdaFunctionRole"
+						]
+					]
+				},
+				"Runtime": "nodejs16.x",
+				"Timeout": 300
+			}
+		},
+		"MedsTrackerAuthVerifyAuthChallengeResponseFunction": {
+			"Type": "AWS::Serverless::Function",
+			"Properties": {
+				"AutoPublishAlias": { "Ref": "CommitId" },
+				"CodeUri": {
+					"Bucket": "hackitout-meds-tracker-backend-artifact-bucket",
+					"Key": {
+						"Fn::Join": [
+							"",
+							[
+								"services/auth/builds/",
+								{ "Ref": "AuthorDate" },
+								"_",
+								{ "Ref": "CommitId" },
+								".zip"
+							]
+						]
+					}
+				},
+				"Description": {
+					"Fn::Join": [
+						"",
+						[
+							"HackItOut Auth Verify Auth Challenge Response Function. AuthorDate: ",
+							{ "Ref": "AuthorDate" },
+							" CommitId: ",
+							{ "Ref": "CommitId" }
+						]
+					]
+				},
+				"Environment": {
+					"Variables": {
+						"ENVIRONMENT": "TESTING",
+						"LOCATION": "CLOUD",
+						"AIT_API_KEY": "{{resolve:ssm:/medstracker/africaistalking/APIKey}}",
+						"AIT_USERNAME": "{{resolve:ssm:/medstracker/africaistalking/Username}}",
+						"JWT_SECRET": "{{resolve:ssm:/medstracker/secret/JWT}}",
+						"UPLOAD_SECRET": "{{resolve:ssm:/medstracker/secret/Upload}}"
+					}
+				},
+				"FunctionName": "MedsTrackerAuthVerifyAuthChallengeResponseFunction",
+				"Handler": "dist/lambda/verify-auth-challenge-response/ncc/index.handler",
+				"MemorySize": 512,
+				"ReservedConcurrentExecutions": 10,
+				"Role": {
+					"Fn::Join": [
+						"",
+						[
+							"arn:aws:iam::",
+							{ "Ref": "AWS::AccountId" },
+
+							":role/MedsTrackerAuthLambdaFunctionRole"
+						]
+					]
+				},
+				"Runtime": "nodejs16.x",
+				"Timeout": 300
+			}
+		}
+	}
+}
