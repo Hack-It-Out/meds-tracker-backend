@@ -38,7 +38,6 @@ async function bootstrap(): Promise<APIGatewayProxyHandlerV2> {
 						credentials: cors.credentials.prod,
 				  },
 		abortOnError: false,
-
 		logger:
 			process.env.ENVIRONMENT == "PRODUCTION"
 				? ["error", "warn"]

@@ -1,0 +1,15 @@
+version: 0.2
+
+env:
+    variables:
+        CDK_LOCATION: CLOUD
+
+batch:
+    fail-fast: false
+    build-graph:
+        - identifier: API
+          ignore-failure: false
+          buildspec: "services/API/buildspec.yml"
+        - identifier: auth
+          ignore-failure: false
+          buildspec: "services/auth/buildspec.yml"
