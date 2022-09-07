@@ -6,7 +6,7 @@ env:
 
 batch:
     fail-fast: false
-    build-graph:
+    build-list:
         - identifier: API
           ignore-failure: false
           buildspec: "services/API/buildspec.yml"
@@ -14,7 +14,15 @@ batch:
           ignore-failure: false
           buildspec: "services/auth/buildspec.yml"
 
+phases:
+    pre_build:
+        commands:
+            - "ls"
+            - "cd services/API"
+            - "ls"
+
 artifacts:
     name: "MedsTrackerBackendStackBuildOutputArtifact"
     files:
+        - "**/dist/**/*"
         - "cloudformation/template.json"
