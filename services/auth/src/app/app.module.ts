@@ -20,19 +20,36 @@ import { V1Module } from "./v1";
 			service: "auth",
 			account: "Gylfie",
 			developer: "Gitau",
-			// cognito: {
-			// 	controller: true,
-			// 	serviceProps: {
-			// 		clientID:
-			// 			process.env.LOCATION == "LOCAL"
-			// 				? process.env.COGNITO_APP_CLIENT_ID_LOCAL
-			// 				: undefined,
-			// 		userPoolID:
-			// 			process.env.LOCATION == "LOCAL"
-			// 				? process.env.COGNITO_APP_USERPOOL_ID_LOCAL
-			// 				: undefined,
-			// 	},
-			// },
+			cognito: {
+				controller: true,
+				serviceProps: {
+					clientID: (() => {
+						switch (process.env.LOCATION) {
+							case "LOCAL": {
+								return process.env.COGNITO_APP_CLIENT_ID_LOCAL;
+							}
+							case "CLOUD": {
+								return process.env.COGNITO_APP_CLIENT_ID;
+							}
+							default:
+								return undefined;
+						}
+					})(),
+					userPoolID: (() => {
+						switch (process.env.LOCATION) {
+							case "LOCAL": {
+								return process.env
+									.COGNITO_APP_USERPOOL_ID_LOCAL;
+							}
+							case "CLOUD": {
+								return process.env.COGNITO_APP_USERPOOL_ID;
+							}
+							default:
+								return undefined;
+						}
+					})(),
+				},
+			},
 			// s3: {
 			// 	controller: true,
 			// 	serviceProps: {

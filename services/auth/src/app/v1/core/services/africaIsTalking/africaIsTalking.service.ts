@@ -1,4 +1,3 @@
-import "./africastalking";
 import { NestLoggerService } from "@gylfie/backend";
 import { State } from "@gylfie/common";
 import { Injectable, Scope } from "@nestjs/common";

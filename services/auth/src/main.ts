@@ -62,8 +62,8 @@ async function local() {
 	app.use(cookieParser());
 	app.useGlobalPipes(new ValidationPipe(defaultValidationPipeProps));
 	app.enableVersioning({ type: VersioningType.URI });
-	await app.listen(3000, () => {
-		console.log("Listening on 3000");
+	await app.listen(3100, () => {
+		console.log("Listening on 3100");
 	});
 }
 local();

@@ -1,6 +1,6 @@
 import type { VerifyAuthChallengeResponseTriggerHandler } from "aws-lambda";
 
-export const handler: VerifyAuthChallengeResponseTriggerHandler = (
+export const handler: VerifyAuthChallengeResponseTriggerHandler = async (
 	event,
 	context,
 	callback
@@ -18,6 +18,5 @@ export const handler: VerifyAuthChallengeResponseTriggerHandler = (
 
 	console.log("RETURNED Event: ", JSON.stringify(event, null, 2));
 
-	// return event;
-	return;
+	return event;
 };

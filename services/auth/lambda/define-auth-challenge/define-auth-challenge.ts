@@ -1,6 +1,6 @@
 import type { DefineAuthChallengeTriggerHandler } from "aws-lambda";
 
-export const handler: DefineAuthChallengeTriggerHandler = (
+export const handler: DefineAuthChallengeTriggerHandler = async (
 	event,
 	context,
 	callback
@@ -59,6 +59,5 @@ export const handler: DefineAuthChallengeTriggerHandler = (
 
 	console.log("RETURNED event: ", JSON.stringify(event, null, 2));
 
-	// return event;
-	return;
+	return event;
 };
