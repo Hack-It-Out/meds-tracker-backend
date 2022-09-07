@@ -13,3 +13,8 @@ batch:
         - identifier: auth
           ignore-failure: false
           buildspec: "services/auth/buildspec.yml"
+
+artifacts:
+    name: "MedsTrackerBackendStackBuildOutputArtifact"
+    files:
+        - "cloudformation/template.json"

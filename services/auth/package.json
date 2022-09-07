@@ -48,6 +48,7 @@
 		"ecr:push": "docker push %AWS_ACCOUNT%.dkr.ecr.eu-west-1.amazonaws.com/gylfie/api:latest"
 	},
 	"dependencies": {
+		"@aws-sdk/client-cognito-identity-provider": "^3.163.0",
 		"@aws-sdk/client-lambda": "^3.162.0",
 		"@aws-sdk/client-ses": "^3.159.0",
 		"@aws-sdk/client-sns": "^3.162.0",
@@ -164,4 +165,3 @@
 		"testEnvironment": "node"
 	}
 }
-

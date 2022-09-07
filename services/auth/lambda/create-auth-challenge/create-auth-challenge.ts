@@ -46,6 +46,6 @@ export const handler: CreateAuthChallengeTriggerHandler = async (
 
 	console.log("RETURNED event: ", JSON.stringify(event, null, 2));
 
-	// return event;
-	event;
+	return event;
+	// event;
 };

@@ -30,7 +30,7 @@ phases:
     # - "pnpm run docker:push"
 
 artifacts:
-    name: "MedsTrackerAuthBuildArtifact"
+    name: "MedsTrackerAuthServiceBuildOutputArtifact"
     files:
         - "dist/**/*"
         # - "cloudformation/template.json"
