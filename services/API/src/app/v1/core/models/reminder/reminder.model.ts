@@ -1,20 +1,4 @@
-import {
-	AccessPatterns,
-	Condition,
-	Const,
-	Entity,
-	IndexType,
-} from "@gylfie/common";
-import {
-	IsArray,
-	IsDefined,
-	IsNumber,
-	IsUUID,
-	ValidateNested,
-	IsPhoneNumber,
-	IsString,
-} from "class-validator";
-import { DateTime } from "luxon";
+import { IsDefined, IsPhoneNumber, IsString } from "class-validator";
 import { BaseModel } from "../base";
 
 export interface ReminderProps {

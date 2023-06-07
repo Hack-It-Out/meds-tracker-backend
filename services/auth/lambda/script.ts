@@ -2,7 +2,6 @@ import glob from "glob";
 import { join, dirname, basename } from "path";
 import { mkdirSync, writeFileSync } from "fs";
 import { last } from "lodash";
-import { path } from "pdfkit";
 const ncc = require("@vercel/ncc");
 
 glob("**/*.js", {}, function (er, files) {

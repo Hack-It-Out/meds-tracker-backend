@@ -1,21 +1,5 @@
-import {
-	AccessPatterns,
-	Condition,
-	Entity,
-	Exclude,
-	IndexType,
-} from "@gylfie/common";
-import {
-	IsDateString,
-	IsDefined,
-	IsEmail,
-	IsEnum,
-	IsPhoneNumber,
-	IsString,
-	Length,
-} from "class-validator";
-import { DateTime } from "luxon";
-import { BaseModel, startDateTime } from "../base";
+import { IsDefined, IsPhoneNumber, IsString, Length } from "class-validator";
+import { BaseModel } from "../base";
 
 enum Gender {
 	MALE = "male",

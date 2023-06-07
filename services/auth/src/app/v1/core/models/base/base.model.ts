@@ -1,6 +1,5 @@
 // import { RegularItem } from "@gylfie/common";
 // import { UserRoles } from "../user";
-import { Const } from "@gylfie/common";
 import {
 	cloneDeep,
 	compact,
@@ -117,7 +116,6 @@ export abstract class BaseModel {
 	updatedOn?: string = DateTime.utc().toISO();
 	version?: number;
 	currentVersion?: number;
-	@Const()
 	createdOn?: string;
 	// ExternalID format {prefix}1234567
 	// 7 digits should give us about 9 million valid numbers
