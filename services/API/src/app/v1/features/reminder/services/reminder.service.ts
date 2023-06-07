@@ -1,4 +1,3 @@
-import { NestDynamoService } from "@gylfie/backend";
 import { Injectable, Scope } from "@nestjs/common";
 import { compact } from "lodash";
 import { ReminderProps } from "~/v1/core/models/reminder";

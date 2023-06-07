@@ -6,13 +6,19 @@ env:
 
 batch:
     fail-fast: false
-    build-list:
-        - identifier: API
+    build-graph:
+        - identifier: MedsTrackerAPIServiceBuildOutputArtifact
           ignore-failure: false
-          buildspec: "services/API/buildspec.yml"
-        - identifier: auth
+          buildspec: services/API/buildspec.yml
+        - identifier: MedsTrackerAuthServiceBuildOutputArtifact
           ignore-failure: false
-          buildspec: "services/auth/buildspec.yml"
+          buildspec: services/auth/buildspec.yml
+        - identifier: MedsTrackerBackendStackBuildOutputArtifact
+          ignore-failure: false
+          buildspec: ./
+          depend-on:
+              - MedsTrackerAuthServiceBuildOutputArtifact
+              - MedsTrackerAPIServiceBuildOutputArtifact
 
 phases:
     pre_build:
